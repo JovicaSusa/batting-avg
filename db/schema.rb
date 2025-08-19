@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_19_202431) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_19_202743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,6 +19,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_19_202431) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["public_id"], name: "index_players_on_public_id", unique: true
+  end
+
+  create_table "season_segments", force: :cascade do |t|
+    t.bigint "season_id", null: false
+    t.bigint "team_id", null: false
+    t.integer "hits", null: false
+    t.integer "at_bats", null: false
+    t.integer "stint", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["season_id"], name: "index_season_segments_on_season_id"
+    t.index ["team_id"], name: "index_season_segments_on_team_id"
   end
 
   create_table "seasons", force: :cascade do |t|
@@ -41,5 +53,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_19_202431) do
     t.index ["public_id", "year"], name: "index_teams_on_public_id_and_year"
   end
 
+  add_foreign_key "season_segments", "seasons"
+  add_foreign_key "season_segments", "teams"
   add_foreign_key "seasons", "players"
 end
