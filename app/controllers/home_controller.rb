@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
+  include Pagy::Backend
+
   def index
-    @seasons = Season.includes(:player, season_segments: :team).limit(10)
+    @pagy, @seasons = pagy(Season.includes(:player, season_segments: :team))
   end
 end

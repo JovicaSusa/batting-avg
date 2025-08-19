@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   root "home#index"
 
   post "/imports" => "imports#create"
+  get "/imports" => "imports#index"
 end

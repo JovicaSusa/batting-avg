@@ -26,21 +26,25 @@
           </div>
         </div>
 
-        <% @seasons.each do |season| %>
-          <div class="w-full flex items-center font-bold p-2">
-            <div class="w-1/4">
-              <%= season.player.public_id %>
+        <%= turbo_frame_tag 'seasons' do %>
+          <% @seasons.each do |season| %>
+            <div class="w-full flex items-center font-bold p-2">
+              <div class="w-1/4">
+                <%= season.player.public_id %>
+              </div>
+              <div class="w-1/4">
+                <%= season.year %>
+              </div>
+              <div class="w-1/4">
+                <%= season.season_segments.map(&:team).map(&:name).join(", ") %>
+              </div>
+              <div class="w-1/4">
+                <%= season.batting_avg %>
+              </div>
             </div>
-            <div class="w-1/4">
-              <%= season.year %>
-            </div>
-            <div class="w-1/4">
-              <%= season.season_segments.map(&:team).map(&:name).join(", ") %>
-            </div>
-            <div class="w-1/4">
-              <%= season.batting_avg %>
-            </div>
-          </div>
+          <% end %>
+
+          <%== pagy_nav(@pagy) %>
         <% end %>
       </div>
     <% end %>
