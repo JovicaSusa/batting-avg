@@ -8,45 +8,69 @@
       %>
       <%= form.submit "Upload", class: 'rounded-xl bg-pink-200 px-8 py-2 font-semibold cursor-pointer' %>
     </div>
+  <% end %>
 
-    <% if @seasons.present? %>
-      <div class="mt-24">
-        <div class="w-full flex items-center bg-red-100 font-bold p-2">
-          <div class="w-1/4">
-            PlayerID
+  <% if @seasons.present? %>
+    <div class="mt-24">
+      <div class='w-full items-center'>
+        <%= form_for :q, url: root_path,
+          method: :get,
+          class: "flex",
+          data: { turbo_frame: 'seasons', turbo_action: 'advance', controller: 'submit' } do |form|
+        %>
+          <div>
+            <%= form.label :player_id, "Filter by player ID" %>
+            <%= combobox_tag "[q][player_id]", Player.pluck(:public_id) %>
           </div>
-          <div class="w-1/4">
-            yearID
-          </div>
-          <div class="w-1/4">
-            Team name(s)
-          </div>
-          <div class="w-1/4">
-            Batting average
-          </div>
-        </div>
 
-        <%= turbo_frame_tag 'seasons' do %>
-          <% @seasons.each do |season| %>
-            <div class="w-full flex items-center font-bold p-2">
-              <div class="w-1/4">
-                <%= season.player.public_id %>
-              </div>
-              <div class="w-1/4">
-                <%= season.year %>
-              </div>
-              <div class="w-1/4">
-                <%= season.season_segments.map(&:team).map(&:name).join(", ") %>
-              </div>
-              <div class="w-1/4">
-                <%= season.batting_avg %>
-              </div>
-            </div>
-          <% end %>
-
-          <%== pagy_nav(@pagy) %>
+          <div>
+            <%= form.label :year, "Filter by year" %>
+            <%= form.select :year,
+              options_for_select(Season.distinct.pluck(:year), selected: params.dig(:q, :year)),
+              {},
+              {
+                class: 'bg-white border border-gray-300 rounded-md p-2 text-gray-800',
+                data: { action: 'change->submit#submit' }
+              }
+            %>
+          </div>
         <% end %>
       </div>
-    <% end %>
+      <div class="w-full flex items-center bg-red-100 font-bold p-2">
+        <div class="w-1/4">
+          PlayerID
+        </div>
+        <div class="w-1/4">
+          yearID
+        </div>
+        <div class="w-1/4">
+          Team name(s)
+        </div>
+        <div class="w-1/4">
+          Batting average
+        </div>
+      </div>
+
+      <%= turbo_frame_tag 'seasons' do %>
+        <% @seasons.each do |season| %>
+          <div class="w-full flex items-center font-bold p-2">
+            <div class="w-1/4">
+              <%= season.player.public_id %>
+            </div>
+            <div class="w-1/4">
+              <%= season.year %>
+            </div>
+            <div class="w-1/4">
+              <%= season.season_segments.map(&:team).map(&:name).join(", ") %>
+            </div>
+            <div class="w-1/4">
+              <%= season.batting_avg %>
+            </div>
+          </div>
+        <% end %>
+
+        <%== pagy_nav(@pagy) %>
+      <% end %>
+    </div>
   <% end %>
 </div>
