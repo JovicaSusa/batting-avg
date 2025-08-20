@@ -9,6 +9,6 @@ class Season < ApplicationRecord
   private
 
   def calculate_batting_avg
-    self.batting_avg = at_bats.zero? ? 0 : hits / at_bats
+    self.batting_avg = at_bats.zero? ? 0 : hits / at_bats.to_f
   end
 end

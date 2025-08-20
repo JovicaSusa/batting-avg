@@ -1,56 +1,58 @@
 <div class='w-5/6 2xl:w-3/6 text-center'>
-  <h1 class="text-2xl font-semibold">Let's calculate batting average! Just upload a file and give us few seconds</h1>
+  <h1 class="text-2xl font-semibold">Let's calculate batting average! Just upload a file and give us a few seconds</h1>
+
+  <%= turbo_stream_from :imports %>
 
   <%= form_with url: imports_path, multipart: true, class: "mt-8" do |form| %>
     <div class="flex justify-center items-center gap-4">
       <%= form.file_field :csv_file,
-        class: 'block w-1/2 text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100'
+        class: 'block w-1/3 text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100'
       %>
       <%= form.submit "Upload", class: 'rounded-xl bg-pink-200 px-8 py-2 font-semibold cursor-pointer' %>
     </div>
   <% end %>
 
-  <% if @seasons.present? %>
-    <div class="mt-24">
-      <div class='w-full items-center'>
-        <%= form_for :q, url: root_path,
-          method: :get,
-          class: "flex",
-          data: { turbo_frame: 'seasons', turbo_action: 'advance', controller: 'submit', action: 'hw-combobox:selection->submit#submit' } do |form|
-        %>
-          <div>
-            <%= form.combobox :player_id, players_path, label: "filter by ID" %>
-          </div>
+  <div class="mt-24">
+    <div class='w-full items-center'>
+      <%= form_for :q, url: root_path,
+        method: :get,
+        class: "flex",
+        data: { turbo_frame: 'seasons', turbo_action: 'advance', controller: 'submit', action: 'hw-combobox:selection->submit#submit' } do |form|
+      %>
+        <div>
+          <%= form.combobox :player_id, players_path, label: "filter by ID" %>
+        </div>
 
-          <div>
-            <%= form.label :year, "Filter by year" %>
-            <%= form.select :year,
-              options_for_select(Season.distinct.pluck(:year), selected: params.dig(:q, :year)),
-              { include_blank: true },
-              {
-                class: 'bg-white border border-gray-300 rounded-md p-2 text-gray-800',
-                data: { action: 'change->submit#submit' }
-              }
-            %>
-          </div>
-        <% end %>
+        <div>
+          <%= form.label :year, "Filter by year" %>
+          <%= form.select :year,
+            options_for_select(Season.distinct.pluck(:year), selected: params.dig(:q, :year)),
+            { include_blank: true },
+            {
+              class: 'bg-white border border-gray-300 rounded-md p-2 text-gray-800',
+              data: { action: 'change->submit#submit' }
+            }
+          %>
+        </div>
+      <% end %>
+    </div>
+    <div class="w-full flex items-center bg-red-100 font-bold p-2">
+      <div class="w-1/4">
+        PlayerID
       </div>
-      <div class="w-full flex items-center bg-red-100 font-bold p-2">
-        <div class="w-1/4">
-          PlayerID
-        </div>
-        <div class="w-1/4">
-          yearID
-        </div>
-        <div class="w-1/4">
-          Team name(s)
-        </div>
-        <div class="w-1/4">
-          Batting average
-        </div>
+      <div class="w-1/4">
+        yearID
       </div>
+      <div class="w-1/4">
+        Team name(s)
+      </div>
+      <div class="w-1/4">
+        Batting average
+      </div>
+    </div>
 
-      <%= turbo_frame_tag 'seasons' do %>
+    <%= turbo_frame_tag 'seasons' do %>
+      <% if @seasons.present? %>
         <% @seasons.each do |season| %>
           <div class="w-full flex items-center font-bold p-2">
             <div class="w-1/4">
@@ -69,7 +71,9 @@
         <% end %>
 
         <%== pagy_nav(@pagy) %>
+      <% else %>
+        <p class='mt-12 '>No stats, please upload file...</p>
       <% end %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

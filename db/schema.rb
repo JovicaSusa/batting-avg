@@ -36,7 +36,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_19_202743) do
   create_table "seasons", force: :cascade do |t|
     t.integer "year", null: false
     t.bigint "player_id", null: false
-    t.integer "batting_avg", null: false
+    t.decimal "batting_avg", precision: 5, scale: 3, null: false
     t.integer "at_bats", null: false
     t.integer "hits", null: false
     t.datetime "created_at", null: false

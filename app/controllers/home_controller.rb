@@ -10,6 +10,6 @@ class HomeController < ApplicationController
       result = result.where(year: params[:q][:year])
     end
 
-    @pagy, @seasons = pagy(result)
+    @pagy, @seasons = pagy(result.order(batting_avg: :desc))
   end
 end
