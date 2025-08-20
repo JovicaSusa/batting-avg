@@ -17,22 +17,30 @@
       <%= form_for :q, url: root_path,
         method: :get,
         class: "flex",
-        data: { turbo_frame: 'seasons', turbo_action: 'advance', controller: 'submit', action: 'hw-combobox:selection->submit#submit' } do |form|
+        data: {
+          turbo_frame: 'seasons',
+          turbo_action: 'advance',
+          controller: 'submit',
+          action: 'hw-combobox:selection->submit#submit'
+        } do |form|
       %>
-        <div>
-          <%= form.combobox :player_id, players_path, label: "filter by ID" %>
-        </div>
+        <div class="flex w-full justify-end mb-4 gap-12">
+          <div class="flex items-center justify-end gap-4 w-1/3">
+            <%= form.label :player_id, "Filter by Player ID", class: "font-semibold" %>
+            <%= form.combobox :player_id, players_path %>
+          </div>
 
-        <div>
-          <%= form.label :year, "Filter by year" %>
-          <%= form.select :year,
-            options_for_select(Season.distinct.pluck(:year), selected: params.dig(:q, :year)),
-            { include_blank: true },
-            {
-              class: 'bg-white border border-gray-300 rounded-md p-2 text-gray-800',
-              data: { action: 'change->submit#submit' }
-            }
-          %>
+          <div class="flex items-center justify-end gap-4 w-1/3">
+            <%= form.label :year, "Filter by Year", class: "font-semibold" %>
+            <%= form.select :year,
+              options_for_select(Season.distinct.pluck(:year), selected: params.dig(:q, :year)),
+              { include_blank: true },
+              {
+                class: 'bg-white border border-gray-300 rounded-md p-2 text-gray-800 w-[10rem]',
+                data: { action: 'change->submit#submit' }
+              }
+            %>
+          </div>
         </div>
       <% end %>
     </div>
@@ -51,7 +59,7 @@
       </div>
     </div>
 
-    <%= turbo_frame_tag 'seasons' do %>
+    <%= turbo_frame_tag 'seasons', data: { turbo_action: 'advance' } do %>
       <% if @seasons.present? %>
         <% @seasons.each do |season| %>
           <div class="w-full flex items-center font-bold p-2">
