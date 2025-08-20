@@ -1,3 +1,5 @@
+require "csv"
+
 class ImportBattingStats
   attr_reader :file
   private :file

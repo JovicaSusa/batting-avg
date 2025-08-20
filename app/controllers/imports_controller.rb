@@ -1,5 +1,3 @@
-require "csv"
-
 class ImportsController < ApplicationController
   def create
     file_to_import = params[:csv_file]
