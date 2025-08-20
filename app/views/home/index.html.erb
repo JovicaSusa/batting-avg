@@ -16,18 +16,17 @@
         <%= form_for :q, url: root_path,
           method: :get,
           class: "flex",
-          data: { turbo_frame: 'seasons', turbo_action: 'advance', controller: 'submit' } do |form|
+          data: { turbo_frame: 'seasons', turbo_action: 'advance', controller: 'submit', action: 'hw-combobox:selection->submit#submit' } do |form|
         %>
           <div>
-            <%= form.label :player_id, "Filter by player ID" %>
-            <%= combobox_tag "[q][player_id]", Player.pluck(:public_id) %>
+            <%= form.combobox :player_id, players_path, label: "filter by ID" %>
           </div>
 
           <div>
             <%= form.label :year, "Filter by year" %>
             <%= form.select :year,
               options_for_select(Season.distinct.pluck(:year), selected: params.dig(:q, :year)),
-              {},
+              { include_blank: true },
               {
                 class: 'bg-white border border-gray-300 rounded-md p-2 text-gray-800',
                 data: { action: 'change->submit#submit' }

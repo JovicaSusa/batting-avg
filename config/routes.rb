@@ -14,4 +14,6 @@ Rails.application.routes.draw do
 
   post "/imports" => "imports#create"
   get "/imports" => "imports#index"
+
+  resources :players, only: [ :index ]
 end

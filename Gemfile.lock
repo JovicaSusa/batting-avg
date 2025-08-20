@@ -104,6 +104,11 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hotwire_combobox (0.4.0)
+      platform_agent (>= 1.0.1)
+      rails (>= 7.0.7.2)
+      stimulus-rails (>= 1.2)
+      turbo-rails (>= 1.2)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.2.2)
@@ -189,6 +194,9 @@ GEM
     pg (1.6.1-x86_64-darwin)
     pg (1.6.1-x86_64-linux)
     pg (1.6.1-x86_64-linux-musl)
+    platform_agent (1.0.1)
+      activesupport (>= 5.2.0)
+      useragent (~> 0.16.3)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -359,6 +367,7 @@ DEPENDENCIES
   bootsnap
   brakeman
   debug
+  hotwire_combobox
   importmap-rails
   jbuilder
   kamal
