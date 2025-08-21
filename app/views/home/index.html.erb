@@ -70,7 +70,7 @@
               <%= season.year %>
             </div>
             <div class="w-1/4">
-              <%= season.season_segments.map(&:team).map(&:name).join(", ") %>
+              <%= season.team_names %>
             </div>
             <div class="w-1/4">
               <%= season.batting_avg %>
@@ -80,7 +80,9 @@
 
         <%== pagy_nav(@pagy) %>
       <% else %>
-        <p class='mt-12 '>No stats, please upload file...</p>
+        <div id="import-progress" class="w-full h-64 flex items-center justify-center">
+          <p>No stats, please upload file...</p>
+        </div>
       <% end %>
     <% end %>
   </div>

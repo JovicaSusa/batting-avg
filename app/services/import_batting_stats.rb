@@ -56,7 +56,7 @@ class ImportBattingStats
   def broadcast_import_start
     Turbo::StreamsChannel.broadcast_update_to(
       "imports",
-      target: "seasons",
+      target: "import-progress",
       partial: "shared/spinner"
     )
   end
@@ -66,7 +66,7 @@ class ImportBattingStats
 
     Turbo::StreamsChannel.broadcast_update_to(
       "imports",
-      target: "import-progress",
+      target: "import-progress-count",
       html: @processed_count
     )
   end

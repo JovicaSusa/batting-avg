@@ -7,18 +7,16 @@ Things you may want to cover:
 
 * Ruby version
 
-* System dependencies
+   3.3.6
 
-* Configuration
+* Setup and run
 
-* Database creation
+  1. `bundle`
 
-* Database initialization
+  2. `rails db:setup`
 
-* How to run the test suite
+  3. `bin/dev`
 
-* Services (job queues, cache servers, search engines, etc.)
+* Running tests
 
-* Deployment instructions
-
-* ...
+  1. `bundle exec rspec`

@@ -1,10 +1,15 @@
 class Season < ApplicationRecord
   belongs_to :player
   has_many :season_segments, dependent: :destroy
+  has_many :teams, through: :season_segments
 
   validates :year, :hits, :at_bats, :batting_avg, presence: true
 
   before_validation :calculate_batting_avg
+
+  def team_names
+    teams.map(&:name).uniq.join(", ")
+  end
 
   private
 
